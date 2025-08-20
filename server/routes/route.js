@@ -10,6 +10,8 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 // import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";/
 import crawlSite from "../tools/crawlSite.js";
 import OpenAI from "openai";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
@@ -121,12 +123,10 @@ router.post("/api/index", upload.array("files"), async (req, res) => {
     }
 
     if (allDocs.length === 0) {
-      return res
-        .status(400)
-        .json({
-          ok: false,
-          error: "No valid input provided. Provide text, url, or files.",
-        });
+      return res.status(400).json({
+        ok: false,
+        error: "No valid input provided. Provide text, url, or files.",
+      });
     }
 
     // Embed + upsert to Qdrant
